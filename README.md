@@ -1,4 +1,4 @@
-<h1 align="center">A simplified Jira clone built with React and Node</h1>
+<h1 align="center">A simplified Jira clone built with React and Flask</h1>
 
 <div align="center">Auto formatted with Prettier, tested with Cypress 🎗</div>
 
@@ -26,7 +26,7 @@ There are many showcase/example React projects out there but most of them are wa
 - Simple local React state management, without redux, mobx, or similar
 - Custom webpack setup, without create-react-app or similar
 - Client written in Babel powered JavaScript
-- API written in TypeScript and using TypeORM
+- API written in Python (Flask + SQLAlchemy)
 
 ## Versioning and release notes
 
@@ -40,10 +40,10 @@ There are many showcase/example React projects out there but most of them are wa
 - Install [PostgreSQL](https://www.postgresql.org/) (PostgreSQL 12+ recommended; tested with 14) and create a database named `jira_development`.
 - `git clone https://github.com/oldboyxx/jira_clone.git`
 - Create an empty `.env` file in `/api`, copy `/api/.env.example` contents into it, and fill in your database username and password.
-- `npm run install-dependencies`
+- `npm run install-dependencies` (installs root/client npm deps and Python backend deps)
 - Start PostgreSQL before running the API.
   - Example (Homebrew): `brew services start postgresql@14`
-- `cd api && npm start`
+- `cd api && python3 run.py` (runs the Flask API on port `3000`)
 - `cd client && npm start` in another terminal tab
 - App should now be running on `http://localhost:8080/`
 
@@ -60,7 +60,7 @@ There are many showcase/example React projects out there but most of them are wa
 ## Running cypress end-to-end tests 🚥
 
 - Set up development environment
-- Create a database named `jira_test` and start the api with `cd api && npm run start:test`
+- Create a database named `jira_test` and start the api with `cd api && NODE_ENV=test DB_DATABASE=jira_test python3 run.py`
 - `cd client && npm run test:cypress`
 
 ## What's missing?
@@ -69,7 +69,7 @@ There are features missing from this showcase product which should exist in a re
 
 ### Migrations 🗄
 
-We're currently using TypeORM's `synchronize` feature which auto creates the database schema on every application launch. It's fine to do this in a showcase product or during early development while the product is not used by anyone, but before going live with a real product, we should [introduce migrations](https://github.com/typeorm/typeorm/blob/master/docs/migrations.md).
+We're currently using SQLAlchemy auto table creation (`db.create_all`) on application launch. It's fine in a showcase product or during early development while the product is not used by anyone, but before going live with a real product, we should introduce explicit database migrations (for example Alembic).
 
 ### Proper authentication system 🔐
 

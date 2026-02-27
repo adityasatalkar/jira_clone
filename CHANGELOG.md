@@ -12,17 +12,18 @@ Historical versions were inferred from git commit history because this repositor
 - Updated client webpack scripts to run with `NODE_OPTIONS=--openssl-legacy-provider`, allowing `webpack@4` to run on modern Node versions.
 - Updated API startup to fail fast with clear logs when the database is unavailable.
 - Added database connection timeout support via `DB_CONNECT_TIMEOUT_MS` (defaults to `5000` ms).
-- Upgraded API dependencies:
-  - `pg` from `^7.14.0` to `^8.19.0`
-  - `typeorm` from `^0.2.20` to `^0.2.45`
+- Migrated backend runtime from TypeScript/Express/TypeORM to Python/Flask/SQLAlchemy while keeping the client-facing REST contract.
+- Removed legacy TypeScript backend sources (`api/src`) and TypeScript-specific backend config files.
+- Switched backend operational commands to direct Python (`python3 run.py`) rather than npm wrappers in `api`.
 
 ### Fixed
 - Fixed `ERR_OSSL_EVP_UNSUPPORTED` when starting the client on Node 22+.
 - Fixed API "clean exit" behavior that hid database boot failures.
-- Fixed Postgres compatibility issue (`column cnst.consrc does not exist`) on newer PostgreSQL versions.
+- Fixed backend compatibility issues on modern PostgreSQL and Node by replacing legacy backend runtime.
 
 ### Notes
-- Lockfiles were updated by npm during dependency upgrades (`api/package-lock.json`, `client/package-lock.json`, root `package-lock.json`, and `client/yarn.lock`).
+- Lockfiles were updated by npm during dependency upgrades (`client/package-lock.json`, root `package-lock.json`, and `client/yarn.lock`), and `api/package-lock.json` was removed as part of the Python-native backend migration.
+- Backend dependency installation now uses `api/requirements.txt` via `python3 -m pip install`.
 
 ## [1.0.0] - 2021-10-20
 

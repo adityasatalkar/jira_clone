@@ -4,10 +4,10 @@
   "author": "Ivor Reic",
   "license": "MIT",
   "scripts": {
-    "pre-commit": "cd api && npm run pre-commit && cd ../client && npm run pre-commit",
-    "install-dependencies": "npm install && cd api && npm install && cd ../client && npm install",
-    "build": "cd api && npm run build && cd ../client && npm run build",
-    "start:production": "cd api && npm run start:production && cd ../client && npm run start:production"
+    "pre-commit": "python3 -m compileall api/flask_app api/run.py && cd client && npm run pre-commit",
+    "install-dependencies": "npm install && python3 -m pip install -r api/requirements.txt && cd client && npm install",
+    "build": "cd client && npm run build",
+    "start:production": "echo 'Run API and client production servers in separate terminals: (1) cd api && NODE_ENV=production python3 run.py (2) cd client && npm run start:production'"
   },
   "devDependencies": {
     "husky": "^4.0.0-beta.5"
