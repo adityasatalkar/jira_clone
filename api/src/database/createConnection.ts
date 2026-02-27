@@ -10,6 +10,10 @@ const createDatabaseConnection = (): Promise<Connection> =>
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
+    // Fail fast when Postgres is unavailable instead of hanging startup indefinitely.
+    extra: {
+      connectionTimeoutMillis: Number(process.env.DB_CONNECT_TIMEOUT_MS) || 5000,
+    },
     entities: Object.values(entities),
     synchronize: true,
   });

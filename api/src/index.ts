@@ -13,15 +13,13 @@ import { RouteNotFoundError } from 'errors';
 import { attachPublicRoutes, attachPrivateRoutes } from './routes';
 
 const establishDatabaseConnection = async (): Promise<void> => {
-  try {
-    await createDatabaseConnection();
-  } catch (error) {
-    console.log(error);
-  }
+  await createDatabaseConnection();
+  console.log('Database connection established.');
 };
 
 const initializeExpress = (): void => {
   const app = express();
+  const port = Number(process.env.PORT) || 3000;
 
   app.use(cors());
   app.use(express.json());
@@ -38,12 +36,20 @@ const initializeExpress = (): void => {
   app.use((req, _res, next) => next(new RouteNotFoundError(req.originalUrl)));
   app.use(handleError);
 
-  app.listen(process.env.PORT || 3000);
+  app.listen(port, () => {
+    console.log(`API is running on http://localhost:${port}`);
+  });
 };
 
 const initializeApp = async (): Promise<void> => {
-  await establishDatabaseConnection();
-  initializeExpress();
+  try {
+    await establishDatabaseConnection();
+    initializeExpress();
+  } catch (error) {
+    console.error('Failed to start API: unable to connect to Postgres.');
+    console.error(error);
+    process.exit(1);
+  }
 };
 
 initializeApp();

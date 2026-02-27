@@ -28,15 +28,34 @@ There are many showcase/example React projects out there but most of them are wa
 - Client written in Babel powered JavaScript
 - API written in TypeScript and using TypeORM
 
+## Versioning and release notes
+
+- This fork follows **Semantic Versioning** (`MAJOR.MINOR.PATCH`).
+- Release notes and version history are tracked in [`CHANGELOG.md`](./CHANGELOG.md).
+- Historical entries were reconstructed from git commit history because this repository does not include git version tags.
+
 ## Setting up development environment 🛠
 
-- Install [postgreSQL](https://www.postgresql.org/) if you don't have it already and create a database named `jira_development`.
+- Install [Node.js](https://nodejs.org/) (Node 22+ supported in this repo).
+- Install [PostgreSQL](https://www.postgresql.org/) (PostgreSQL 12+ recommended; tested with 14) and create a database named `jira_development`.
 - `git clone https://github.com/oldboyxx/jira_clone.git`
 - Create an empty `.env` file in `/api`, copy `/api/.env.example` contents into it, and fill in your database username and password.
 - `npm run install-dependencies`
+- Start PostgreSQL before running the API.
+  - Example (Homebrew): `brew services start postgresql@14`
 - `cd api && npm start`
 - `cd client && npm start` in another terminal tab
 - App should now be running on `http://localhost:8080/`
+
+### Troubleshooting
+
+- If the UI is stuck on the loading spinner, verify the API is running and healthy:
+  - `curl -X POST http://localhost:3000/authentication/guest`
+  - expected response: HTTP `200` with an `authToken`
+- If the API fails to start, check:
+  - Postgres service status
+  - values in `/api/.env`
+  - whether `jira_development` database exists
 
 ## Running cypress end-to-end tests 🚥
 
