@@ -8,6 +8,32 @@ Historical versions were inferred from git commit history because this repositor
 
 ## [Unreleased]
 
+Target release: **2.1.0** (`MINOR`) - new user-facing functionality without breaking the API contract.
+
+### Added
+- Added a Jira-style task List View at `/project/list` with table columns for work, assignee, reporter, priority, status, created/updated timestamps, and resolution.
+- Added list-level filtering controls (search, assignee avatars, "Only my tasks", and status toggles).
+- Added a dedicated issue details page for list items at `/project/list/issues/:issueId` with:
+  - back-to-list navigation,
+  - two-column details layout (main content + metadata sidebar),
+  - editable issue fields reusing existing issue details modules (type, title, description, comments, status, assignees/reporter, priority, estimate/time tracking, dates).
+
+### Changed
+- Changed list issue opening behavior from modal-based display to full-page details route for a richer, persistent context.
+- Refined list table cell layout and responsive behavior to match Jira-like alignment and readability.
+
+### Fixed
+- Fixed React hook-order crash in `ProjectListView` (`Rendered more hooks than during the previous render`).
+- Fixed list table rendering issues caused by flex styles on `<td>` elements.
+- Added null-safe issue/user/date handling in List View to prevent blank screens when payload fields are missing.
+
+### Notes
+- These frontend changes are currently in working tree state and should be committed before tagging `2.1.0`.
+
+## [2.0.0] - 2026-02-28
+
+`MAJOR` release due to backend runtime and developer workflow breakage (Node/TypeScript backend removed, Python/Flask backend required).
+
 ### Changed
 - Updated client webpack scripts to run with `NODE_OPTIONS=--openssl-legacy-provider`, allowing `webpack@4` to run on modern Node versions.
 - Updated API startup to fail fast with clear logs when the database is unavailable.
@@ -24,6 +50,10 @@ Historical versions were inferred from git commit history because this repositor
 ### Notes
 - Lockfiles were updated by npm during dependency upgrades (`client/package-lock.json`, root `package-lock.json`, and `client/yarn.lock`), and `api/package-lock.json` was removed as part of the Python-native backend migration.
 - Backend dependency installation now uses `api/requirements.txt` via `python3 -m pip install`.
+
+### Commits
+- `3955210` changed node api implementation to flask, replaced node completely with python for backend
+- `a79a2bd` project updated and now works
 
 ## [1.0.0] - 2021-10-20
 

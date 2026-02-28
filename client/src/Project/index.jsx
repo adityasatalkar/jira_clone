@@ -9,6 +9,7 @@ import { PageLoader, PageError, Modal } from 'shared/components';
 import NavbarLeft from './NavbarLeft';
 import Sidebar from './Sidebar';
 import Board from './Board';
+import ListView from './ListView';
 import IssueSearch from './IssueSearch';
 import IssueCreate from './IssueCreate';
 import ProjectSettings from './ProjectSettings';
@@ -79,6 +80,17 @@ const Project = () => {
         path={`${match.path}/board`}
         render={() => (
           <Board
+            project={project}
+            fetchProject={fetchProject}
+            updateLocalProjectIssues={updateLocalProjectIssues}
+          />
+        )}
+      />
+
+      <Route
+        path={`${match.path}/list`}
+        render={() => (
+          <ListView
             project={project}
             fetchProject={fetchProject}
             updateLocalProjectIssues={updateLocalProjectIssues}
